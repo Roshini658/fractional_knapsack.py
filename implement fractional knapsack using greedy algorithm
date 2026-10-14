@@ -1,0 +1,45 @@
+def fractionalKnapsack(val, wt, capacity):
+    # Get the number of items
+    n = len(val)
+
+    # Store each item's ratio, value, and weight
+    items = []
+
+    # Calculate the value-to-weight ratio of every item
+    for i in range(n):
+        ratio = val[i] / wt[i]
+        items.append((ratio, val[i], wt[i]))
+
+    # Sort items by ratio from highest to lowest
+    items.sort(reverse=True)
+
+    # Store the maximum total value
+    total_value = 0.0
+
+    # Visit items in decreasing ratio order
+    for ratio, value, weight in items:
+
+        # Stop if the bag has no capacity left
+        if capacity == 0:
+            break
+
+        # If the whole item fits in the bag
+        if weight <= capacity:
+            total_value += value
+            capacity -= weight
+
+        # Otherwise, take only the fraction that fits
+        else:
+            total_value += ratio * capacity
+            capacity = 0
+
+    # Return the maximum value
+    return total_value
+
+
+val = [60, 100, 120]
+wt = [10, 20, 30]
+capacity = 50
+
+answer = fractionalKnapsack(val, wt, capacity)
+print(f"{answer:.6f}")
